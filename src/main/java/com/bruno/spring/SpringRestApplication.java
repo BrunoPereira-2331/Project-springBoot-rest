@@ -1,5 +1,6 @@
 package com.bruno.spring;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.bruno.spring.domain.Order;
+import com.bruno.spring.domain.Payment;
+import com.bruno.spring.domain.PaymentCreditCard;
+import com.bruno.spring.domain.PaymentSlip;
 import com.bruno.spring.domain.Adress;
 import com.bruno.spring.domain.Category;
 import com.bruno.spring.domain.City;
@@ -14,10 +19,13 @@ import com.bruno.spring.domain.Client;
 import com.bruno.spring.domain.Product;
 import com.bruno.spring.domain.State;
 import com.bruno.spring.domain.enums.ClientType;
+import com.bruno.spring.domain.enums.PaymentState;
 import com.bruno.spring.repositories.AdressRepository;
 import com.bruno.spring.repositories.CategoryRepository;
 import com.bruno.spring.repositories.CityRepository;
 import com.bruno.spring.repositories.ClientRepository;
+import com.bruno.spring.repositories.OrderRepository;
+import com.bruno.spring.repositories.PaymentRepository;
 import com.bruno.spring.repositories.ProductRepository;
 import com.bruno.spring.repositories.StateRepository;
 
@@ -41,6 +49,12 @@ public class SpringRestApplication implements CommandLineRunner{
 	
 	@Autowired
 	private AdressRepository adressRepo;
+	
+	@Autowired
+	private OrderRepository orderRepo;
+	
+	@Autowired
+	private PaymentRepository paymentRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringRestApplication.class, args);
@@ -92,7 +106,21 @@ public class SpringRestApplication implements CommandLineRunner{
 		clientRepo.save(cli1);
 		adressRepo.saveAll(Arrays.asList(adress1, adress2));
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
+		Order order1 = new Order(null, sdf.parse("30/09/2017 10:32"), cli1, adress1);
+		Order order2 = new Order(null, sdf.parse("10/10/2017 19:35"), cli1, adress2);
+		
+		Payment pay1 = new PaymentCreditCard(null, PaymentState.SETTLED, order1, 6);
+		order1.setPayment(pay1);
+		
+		Payment pay2 = new PaymentSlip(null, PaymentState.PENDING, order2, sdf.parse("20/10/2020 00:00"), null);
+		order2.setPayment(pay2);
+		
+		cli1.getOrders().addAll(Arrays.asList(order1, order2));
+		
+		orderRepo.saveAll(Arrays.asList(order1, order2));
+		paymentRepo.saveAll(Arrays.asList(pay1, pay2));
 	}
 
 }
