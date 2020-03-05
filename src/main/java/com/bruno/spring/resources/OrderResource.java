@@ -7,21 +7,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bruno.spring.domain.Product;
-import com.bruno.spring.services.ProductService;
+import com.bruno.spring.domain.Order;
+import com.bruno.spring.services.OrderService;
 
 @RestController
-@RequestMapping(value = "/products")
-public class ProductResource {
+@RequestMapping(value = "/orders")
+public class OrderResource {
 
 	@Autowired
-	private ProductService productService;
+	private OrderService orderService;
 	
 	//PathVariable passa o id da request para o parametro id
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Long id) {
-		Product obj = productService.find(id);
+		Order obj = orderService.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
 	
 }
