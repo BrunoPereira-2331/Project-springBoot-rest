@@ -70,7 +70,13 @@ public class SpringRestApplication implements CommandLineRunner {
 
 		Category cat1 = new Category(null, "Informática");
 		Category cat2 = new Category(null, "Escritório");
-
+		Category cat3 = new Category(null, "Cama mesa e banho");
+		Category cat4 = new Category(null, "Eletronicos");
+		Category cat5 = new Category(null, "Jardinagem");
+		Category cat6 = new Category(null, "Decoração");
+		Category cat7 = new Category(null, "Perfumaria");
+		
+		
 		Product product1 = new Product(null, "Computador", 2000.00);
 		Product product2 = new Product(null, "Impressora", 800.00);
 		Product product3 = new Product(null, "Mouse", 80.00);
@@ -82,7 +88,7 @@ public class SpringRestApplication implements CommandLineRunner {
 		product2.getCategories().addAll(Arrays.asList(cat1, cat2));
 		product3.getCategories().add(cat1);
 
-		categoryRepo.saveAll(Arrays.asList(cat1, cat2));
+		categoryRepo.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		productRepo.saveAll(Arrays.asList(product1, product2, product3));
 
 		State state1 = new State(null, "Minas Gerais");
