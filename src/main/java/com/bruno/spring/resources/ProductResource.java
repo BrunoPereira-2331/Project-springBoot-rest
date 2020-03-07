@@ -19,7 +19,7 @@ public class ProductResource {
 	
 	//PathVariable passa o id da request para o parametro id
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Long id) {
+	public ResponseEntity<Product> find(@PathVariable Long id) {
 		Product obj = productService.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
