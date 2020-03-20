@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,8 @@ public class CategoryResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Category obj) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDto) {
+		Category obj = catService.FromDTO(objDto);
 		obj = catService.insert(obj);
 		//passa como parametro o id do obj para requisição
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -49,7 +52,8 @@ public class CategoryResource {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Category obj, @PathVariable Long id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO objDto, @PathVariable Long id) {
+		Category obj = catService.FromDTO(objDto);
 		obj.setId(id);
 		obj = catService.update(obj);
 		return ResponseEntity.noContent().build();

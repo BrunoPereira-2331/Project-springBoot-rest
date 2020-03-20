@@ -2,6 +2,10 @@ package com.bruno.spring.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.bruno.spring.domain.Category;
 
 public class CategoryDTO implements Serializable{
@@ -9,6 +13,9 @@ public class CategoryDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	@NotEmpty(message = "Field must be filled")
+	@Length(min = 5, max = 150, message = "Name field must have between 5 & 80 characters")
 	private String name;
 	
 	public CategoryDTO() {

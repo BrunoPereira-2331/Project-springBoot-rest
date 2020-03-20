@@ -1,4 +1,4 @@
-package com.bruno.spring.resources.exceptions;
+ package com.bruno.spring.resources.exceptions;
 
 import java.io.Serializable;
 
