@@ -14,8 +14,8 @@ public class CategoryDTO implements Serializable{
 
 	private Long id;
 	
-	@NotEmpty(message = "Field must be filled")
-	@Length(min = 5, max = 150, message = "Name field must have between 5 & 80 characters")
+	@NotEmpty(message = "Field name must be filled")
+	@Length(min = 5, max = 80, message = "Name field must have between 5 & 80 characters")
 	private String name;
 	
 	public CategoryDTO() {
@@ -41,6 +41,4 @@ public class CategoryDTO implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

@@ -46,7 +46,7 @@ public class CategoryResource {
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDto) {
 		Category obj = catService.FromDTO(objDto);
 		obj = catService.insert(obj);
-		//passa como parametro o id do obj para requisição
+		//passa como parametro o id do obj para a requisição
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
@@ -71,7 +71,7 @@ public class CategoryResource {
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
 			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy, 
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-		Page<Category> list = catService.findPage(page, linesPerPage, orderBy, direction);
+		Page<Category> list = catService.findPage(page, linesPerPage, direction, orderBy);
 		Page<CategoryDTO> listDto = list.map(obj -> new CategoryDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}

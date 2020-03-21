@@ -44,13 +44,13 @@ public class Client implements Serializable {
 	public Client() {
 	}
 
-	public Client(Long id, String name, String email, String cpfOrCnpj, ClientType ClientType) {
+	public Client(Long id, String name, String email, String cpfOrCnpj, ClientType clientType) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.cpfOrCnpj = cpfOrCnpj;
-		this.clientType = ClientType.getCod();
+		this.clientType = (clientType == null) ? null : clientType.getCod();
 	}
 
 	public Long getId() {

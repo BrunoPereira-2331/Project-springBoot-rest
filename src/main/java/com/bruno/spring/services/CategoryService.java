@@ -56,7 +56,7 @@ public class CategoryService {
 		newObj.setName(obj.getName());
 	}
 	
-	public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+	public Page<Category> findPage(Integer page, Integer linesPerPage, String direction, String orderBy) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return categoryRepo.findAll(pageRequest);
 	}
