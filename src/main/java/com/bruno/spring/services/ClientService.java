@@ -55,7 +55,7 @@ public class ClientService {
 			clientRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException(
-					"Can't delete this client! there are entities associeted with this client");
+					"Can't delete this client! there are orders associeted with this client");
 		}
 	}
 

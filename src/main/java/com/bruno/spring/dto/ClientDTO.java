@@ -15,11 +15,11 @@ public class ClientDTO implements Serializable {
 
 	private Long id;
 
-	@NotEmpty(message = "Field name must be filled!")
+	@NotEmpty(message = "Required field!")
 	@Length(min = 3, max = 150, message = "Name field must have between 3 & 150 characters")
 	private String name;
 
-	@NotEmpty(message = "Field email must be filled!")
+	@NotEmpty(message = "Required field!")
 	@Email(message = "Invalid email")
 	private String email;
 

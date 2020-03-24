@@ -2,21 +2,44 @@ package com.bruno.spring.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.bruno.spring.services.validation.ClientInsert;
+
+@ClientInsert
 public class ClientNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty(message = "Required field!")
+	@Length(min = 3, max = 150, message = "Name field must have between 3 & 150 characters")
 	private String name;
+	
+	@NotEmpty(message = "Required field!")
+	@Email(message = "Invalid email")
 	private String email;
+	
+	@NotEmpty(message = "Required field!")
 	private String cpfOrCnpj;
+	
 	private Integer clientType;
 
+	@NotEmpty(message = "Required field!")
 	private String logradouro;
+	
+	@NotEmpty(message = "Required field!")
 	private String number;
+	
 	private String complement;
 	private String neighborhood;
+	
+	@NotEmpty(message = "Required field!")
 	private String postalCode;
 
+	@NotEmpty(message = "Required field!")
 	private String phone1;
 	private String phone2;
 	private String phone3;
