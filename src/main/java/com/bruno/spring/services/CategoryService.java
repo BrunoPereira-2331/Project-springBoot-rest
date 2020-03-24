@@ -52,10 +52,6 @@ public class CategoryService {
 		}
 	}
 	
-	private void updateData(Category newObj, Category obj) {
-		newObj.setName(obj.getName());
-	}
-	
 	public Page<Category> findPage(Integer page, Integer linesPerPage, String direction, String orderBy) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return categoryRepo.findAll(pageRequest);
@@ -63,5 +59,9 @@ public class CategoryService {
 	
 	public Category FromDTO(CategoryDTO objDto) {
 		return new Category(objDto.getId(), objDto.getName());
+	}
+	
+	private void updateData(Category newObj, Category obj) {
+		newObj.setName(obj.getName());
 	}
 }

@@ -2,6 +2,7 @@ package com.bruno.spring.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
@@ -19,7 +20,7 @@ public class ClientDTO implements Serializable {
 	private String name;
 
 	@NotEmpty(message = "Field email must be filled!")
-	@Length(min = 3, max = 150, message = "Name field must have between 3 & 150 characters")
+	@Email(message = "Invalid email")
 	private String email;
 
 	public ClientDTO(Client obj) {
