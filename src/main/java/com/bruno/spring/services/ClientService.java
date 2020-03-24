@@ -3,6 +3,8 @@ package com.bruno.spring.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -36,6 +38,7 @@ public class ClientService {
 				() -> new ObjectNotFoundException("Object not found! id: " + id + ", type: " + Client.class.getName()));
 	}
 
+	@Transactional
 	public Client insert(Client obj) {
 		obj.setId(null);
 		obj = clientRepo.save(obj);
