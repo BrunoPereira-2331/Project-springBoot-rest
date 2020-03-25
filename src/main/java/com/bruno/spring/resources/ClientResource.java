@@ -44,7 +44,7 @@ public class ClientResource {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody ClientNewDTO objDto, @PathVariable Long id) {
+	public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO objDto, @PathVariable Long id) {
 		Client obj = clientService.fromDto(objDto);
 		obj.setId(id);
 		obj = clientService.update(obj);

@@ -8,7 +8,9 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.bruno.spring.domain.Client;
+import com.bruno.spring.services.validation.ClientUpdate;
 
+@ClientUpdate
 public class ClientDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,6 +24,10 @@ public class ClientDTO implements Serializable {
 	@NotEmpty(message = "Required field!")
 	@Email(message = "Invalid email")
 	private String email;
+
+	public ClientDTO() {
+		super();
+	}
 
 	public ClientDTO(Client obj) {
 		this.id = obj.getId();
