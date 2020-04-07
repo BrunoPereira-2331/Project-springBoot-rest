@@ -8,15 +8,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.bruno.spring.domain.Order;
-import com.bruno.spring.domain.Payment;
-import com.bruno.spring.domain.PaymentCreditCard;
-import com.bruno.spring.domain.PaymentSlip;
-import com.bruno.spring.domain.OrderItem;
 import com.bruno.spring.domain.Adress;
 import com.bruno.spring.domain.Category;
 import com.bruno.spring.domain.City;
 import com.bruno.spring.domain.Client;
+import com.bruno.spring.domain.Order;
+import com.bruno.spring.domain.OrderItem;
+import com.bruno.spring.domain.Payment;
+import com.bruno.spring.domain.PaymentCreditCard;
+import com.bruno.spring.domain.PaymentSlip;
 import com.bruno.spring.domain.Product;
 import com.bruno.spring.domain.State;
 import com.bruno.spring.domain.enums.ClientType;
@@ -75,21 +75,41 @@ public class SpringRestApplication implements CommandLineRunner {
 		Category cat5 = new Category(null, "Jardinagem");
 		Category cat6 = new Category(null, "Decoração");
 		Category cat7 = new Category(null, "Perfumaria");
-		
-		
+			
 		Product product1 = new Product(null, "Computador", 2000.00);
 		Product product2 = new Product(null, "Impressora", 800.00);
 		Product product3 = new Product(null, "Mouse", 80.00);
+		Product product4 = new Product(null, "Mesa de escritório", 300.00);
+		Product product5 = new Product(null, "Toalha", 50.00);
+		Product product6 = new Product(null, "Colcha", 200.00);
+		Product product7 = new Product(null, "TV true color", 1200.00);
+		Product product8 = new Product(null, "Roçadeira", 800.00);
+		Product product9 = new Product(null, "Abajour", 100.00);
+		Product product10 = new Product(null, "Pendente", 180.00);
+		Product product11 = new Product(null, "Shampoo", 90.00);
 
 		cat1.getProducts().addAll(Arrays.asList(product1, product2, product3));
-		cat2.getProducts().add(product2);
-
-		product1.getCategories().add(cat1);
-		product2.getCategories().addAll(Arrays.asList(cat1, cat2));
-		product3.getCategories().add(cat1);
+		cat2.getProducts().addAll(Arrays.asList(product2, product4));
+		cat3.getProducts().addAll(Arrays.asList(product5, product6));
+		cat4.getProducts().addAll(Arrays.asList(product1, product2, product3));
+		cat5.getProducts().addAll(Arrays.asList(product8));
+		cat6.getProducts().addAll(Arrays.asList(product9, product10));
+		cat7.getProducts().addAll(Arrays.asList(product11));
+		
+		product1.getCategories().addAll(Arrays.asList(cat1, cat4));
+		product2.getCategories().addAll(Arrays.asList(cat1, cat2, cat4));
+		product3.getCategories().addAll(Arrays.asList(cat1, cat4));
+		product4.getCategories().addAll(Arrays.asList(cat2));   
+		product5.getCategories().addAll(Arrays.asList(cat3));   
+		product6.getCategories().addAll(Arrays.asList(cat3));   
+		product7.getCategories().addAll(Arrays.asList(cat4));   
+		product8.getCategories().addAll(Arrays.asList(cat5));   
+		product9.getCategories().addAll(Arrays.asList(cat6));   
+	    product10.getCategories().addAll(Arrays.asList(cat6));   
+        product11.getCategories().addAll(Arrays.asList(cat7));   
 
 		categoryRepo.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
-		productRepo.saveAll(Arrays.asList(product1, product2, product3));
+		productRepo.saveAll(Arrays.asList(product1, product2, product3, product4, product5, product6, product7, product8, product9, product10, product11));
 
 		State state1 = new State(null, "Minas Gerais");
 		State state2 = new State(null, "São Paulo");
