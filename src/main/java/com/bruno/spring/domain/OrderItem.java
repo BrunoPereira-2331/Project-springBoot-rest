@@ -31,6 +31,10 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 		this.price = price;
 	}
+	
+	public double getSubTotal() {
+		return (price - descount) * quantity;
+	}
 
 	//tudo que começa com get ele entende que tem que serializar
 	@JsonIgnore
@@ -38,8 +42,16 @@ public class OrderItem implements Serializable {
 		return id.getOrder();
 	}
 	
+	public void setOrder(Order order) {
+		id.setOrder(order);
+	}
+	
 	public Product getProduct() {
 		return id.getProduct();
+	}
+	
+	public void setProduct(Product order) {
+		id.setProduct(order);
 	}
 
 	public OrderItemPK getId() {

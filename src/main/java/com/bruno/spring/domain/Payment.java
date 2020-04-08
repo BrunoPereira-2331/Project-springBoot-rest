@@ -12,9 +12,11 @@ import javax.persistence.OneToOne;
 
 import com.bruno.spring.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,7 +27,7 @@ public abstract class Payment implements Serializable {
 
 	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name="order_id")
+	@JoinColumn(name = "order_id")
 	@MapsId
 	private Order order;
 
@@ -34,7 +36,7 @@ public abstract class Payment implements Serializable {
 
 	public Payment(Long id, PaymentState state, Order order) {
 		this.id = id;
-		this.state = (order == null) ? null :state.getCod();
+		this.state = (order == null) ? null : state.getCod();
 		this.order = order;
 	}
 

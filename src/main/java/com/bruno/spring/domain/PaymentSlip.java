@@ -6,8 +6,10 @@ import javax.persistence.Entity;
 
 import com.bruno.spring.domain.enums.PaymentState;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @Entity
+@JsonTypeName("paymentSlip")
 public class PaymentSlip extends Payment {
 
 	private static final long serialVersionUID = 1L;
