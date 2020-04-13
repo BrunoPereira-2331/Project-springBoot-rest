@@ -1,8 +1,11 @@
 package com.bruno.spring.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,7 +30,7 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instant;
 
@@ -55,14 +58,14 @@ public class Order implements Serializable {
 		this.client = client;
 		this.deliveryAdress = adress;
 	}
-	
+
 	public double getTotalValue() {
 		double sum = 0.0;
 		for (OrderItem x : items) {
 			sum += x.getSubTotal();
 		}
 		return sum;
-		
+
 	}
 
 	public Long getId() {
@@ -136,5 +139,27 @@ public class Order implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		StringBuilder builder = new StringBuilder();
+		builder.append("Order number: ");
+		builder.append(getId());
+		builder.append(", Instant: ");
+		builder.append(sdf.format(getInstant()));
+		builder.append(", Client: ");
+		builder.append(getClient().getName());
+		builder.append(", Payment status: ");
+		builder.append(getPayment().getState().getDescription());
+		builder.append("\nDetails:\n");
+		for (OrderItem x : getItems()) {
+			builder.append(x.toString());
+		}
+		builder.append("Total value: ");
+		builder.append(nf.format(getTotalValue()));
+		return builder.toString();
 	}
 }

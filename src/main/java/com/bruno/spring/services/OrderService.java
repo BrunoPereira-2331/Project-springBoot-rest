@@ -33,6 +33,9 @@ public class OrderService {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	public Order find(Long id) {
 		Optional<Order> obj = orderRepo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! id:" + id + ", Type: " + Order.class.getName()));
@@ -41,6 +44,7 @@ public class OrderService {
 	public Order insert(Order obj) {
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.find(obj.getClient().getId()));
 		obj.getPayment().setState(PaymentState.PENDING);
 		obj.getPayment().setOrder(obj);
 		if (obj.getPayment() instanceof PaymentSlip) {
@@ -51,10 +55,12 @@ public class OrderService {
 		paymentRepo.save(obj.getPayment());
 		for (OrderItem x : obj.getItems()) {
 			x.setDescount(0.0);
-			x.setPrice(productService.find(x.getProduct().getId()).getPrice());
+			x.setProduct(productService.find(x.getProduct().getId()));
+			x.setPrice(x.getProduct().getPrice());
 			x.setOrder(obj);
 		}
 		orderItemRepository.saveAll(obj.getItems());
+		System.out.println(obj);
 		return obj;
 	}
 	

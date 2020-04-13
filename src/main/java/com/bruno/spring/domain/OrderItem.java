@@ -1,6 +1,8 @@
 package com.bruno.spring.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -12,7 +14,7 @@ public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	//id embutido em um tipo auxiliar
+	// id embutido em um tipo auxiliar
 	@JsonIgnore
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
@@ -31,25 +33,25 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 		this.price = price;
 	}
-	
+
 	public double getSubTotal() {
 		return (price - descount) * quantity;
 	}
 
-	//tudo que começa com get ele entende que tem que serializar
+	// tudo que começa com get ele entende que tem que serializar
 	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
-	
+
 	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
-	
+
 	public Product getProduct() {
 		return id.getProduct();
 	}
-	
+
 	public void setProduct(Product order) {
 		id.setProduct(order);
 	}
@@ -109,6 +111,21 @@ public class OrderItem implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduct().getName());
+		builder.append(", Qte: ");
+		builder.append(getQuantity());
+		builder.append(", Unit price: ");
+		builder.append(nf.format(getPrice()));
+		builder.append(", Subtotal: ");
+		builder.append(nf.format(getSubTotal()));
+		builder.append("\n");
+		return builder.toString();
 	}
 
 }
