@@ -7,11 +7,11 @@ import org.springframework.mail.SimpleMailMessage;
 
 import com.bruno.spring.domain.Order;
 
-public abstract class AbstractEmailService implements EmailService{
+public abstract class AbstractEmailService implements EmailService {
 
 	@Value("${default.sender}")
 	private String sender;
-	
+
 	@Override
 	public void sendOrderConfirmationEmail(Order obj) {
 		SimpleMailMessage sm = prepareSimpleMailMessageFromOrder(obj);
@@ -27,6 +27,5 @@ public abstract class AbstractEmailService implements EmailService{
 		sm.setText(obj.toString());
 		return sm;
 	}
-
 
 }
