@@ -21,6 +21,7 @@ import com.bruno.spring.domain.Product;
 import com.bruno.spring.domain.State;
 import com.bruno.spring.domain.enums.ClientType;
 import com.bruno.spring.domain.enums.PaymentState;
+import com.bruno.spring.domain.enums.Profile;
 import com.bruno.spring.repositories.AdressRepository;
 import com.bruno.spring.repositories.CategoryRepository;
 import com.bruno.spring.repositories.CityRepository;
@@ -123,18 +124,27 @@ public class DBService {
 		stateRepo.saveAll(Arrays.asList(state1, state2));
 		cityRepo.saveAll(Arrays.asList(city1, city2, city3));
 
-		Client cli1 = new Client(null, "bruno Silva", "brunopereira.19@hotmail.com", "36378912377",
+		Client cli1 = new Client(null, "Bruno Silva", "brunopereira.19@hotmail.com", "36378912377",
 				ClientType.PESSOAFISICA, bcrypt.encode("123"));
 
-		cli1.getPhoneNumber().addAll(Arrays.asList("21334261", "99328452"));
+		Client cli2 = new Client(null, "Maria Silva", "maria@hotmail.com", "30817400028",
+				ClientType.PESSOAFISICA, bcrypt.encode("452"));
+		cli2.addProfile(Profile.ADMIN);
+		
+		
+		cli1.getPhoneNumber().addAll(Arrays.asList("91334261", "92328452"));
+		cli2.getPhoneNumber().addAll(Arrays.asList("99586245", "95423251"));
 
 		Adress adress1 = new Adress(null, "Rua Flores", "300", "Apto 203", "Jardim", "38220834", cli1, city1);
 		Adress adress2 = new Adress(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, city2);
-
+		Adress adress3 = new Adress(null, "Avenida Floriano", "2006", null, "Centro", "22467012", cli2, city2);
+		
+		
 		cli1.getAdresses().addAll(Arrays.asList(adress1, adress2));
+		cli2.getAdresses().addAll(Arrays.asList(adress3));
 
-		clientRepo.save(cli1);
-		adressRepo.saveAll(Arrays.asList(adress1, adress2));
+		clientRepo.saveAll(Arrays.asList(cli1, cli2));
+		adressRepo.saveAll(Arrays.asList(adress1, adress2, adress3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
