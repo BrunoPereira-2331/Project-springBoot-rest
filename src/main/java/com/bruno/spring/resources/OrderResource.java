@@ -1,6 +1,5 @@
 package com.bruno.spring.resources;
 
-
 import java.net.URI;
 
 import javax.validation.Valid;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.bruno.spring.domain.Order;
 import com.bruno.spring.services.OrderService;
 
-
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderResource {
@@ -31,8 +29,8 @@ public class OrderResource {
 		Order obj = orderService.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody Order obj) {
 		obj = orderService.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
