@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bruno.spring.domain.enums.Profile;
 
+//userSS == userSpringSecurity
 public class UserSS implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +29,8 @@ public class UserSS implements UserDetails {
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.authorities = profiles.stream().map(x -> new SimpleGrantedAuthority(x.getDescription())).collect(Collectors.toList());
+		this.authorities = profiles.stream().map(x -> new SimpleGrantedAuthority(x.getDescription()))
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -44,6 +46,10 @@ public class UserSS implements UserDetails {
 	@Override
 	public String getUsername() {
 		return email;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	@Override
@@ -64,10 +70,6 @@ public class UserSS implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 }
