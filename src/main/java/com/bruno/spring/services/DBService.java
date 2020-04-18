@@ -127,8 +127,8 @@ public class DBService {
 		Client cli1 = new Client(null, "Bruno Silva", "brunopereira.19@hotmail.com", "36378912377",
 				ClientType.PESSOAFISICA, bcrypt.encode("123"));
 
-		Client cli2 = new Client(null, "Maria Silva", "maria@hotmail.com", "30817400028",
-				ClientType.PESSOAFISICA, bcrypt.encode("452"));
+		Client cli2 = new Client(null, "Maria Silva", "b.2331bruno@gmail.com", "30817400028",
+				ClientType.PESSOAFISICA, bcrypt.encode("123"));
 		cli2.addProfile(Profile.ADMIN);
 		
 		
