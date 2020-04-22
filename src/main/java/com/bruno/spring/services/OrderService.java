@@ -4,8 +4,12 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.bruno.spring.domain.Client;
 import com.bruno.spring.domain.Order;
 import com.bruno.spring.domain.OrderItem;
 import com.bruno.spring.domain.PaymentSlip;
@@ -13,6 +17,8 @@ import com.bruno.spring.domain.enums.PaymentState;
 import com.bruno.spring.repositories.OrderItemRepository;
 import com.bruno.spring.repositories.OrderRepository;
 import com.bruno.spring.repositories.PaymentRepository;
+import com.bruno.spring.security.UserSS;
+import com.bruno.spring.services.exceptions.AuthorizationException;
 import com.bruno.spring.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -65,6 +71,16 @@ public class OrderService {
 		orderItemRepository.saveAll(obj.getItems());
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
+	}
+	
+	public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Access denied");
+		}
+		Client client = clientService.find(user.getId());
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return orderRepo.findByClient(client, pageRequest);
 	}
 	
 }
