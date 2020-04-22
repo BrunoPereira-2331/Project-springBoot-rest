@@ -37,7 +37,7 @@ public class ClientService {
 	private AdressRepository adressRepo;
 	
 	@Autowired
-	private BCryptPasswordEncoder bcrypt;
+	private BCryptPasswordEncoder bCrypt;
 	
 
 	public Client find(Long id) {
@@ -91,7 +91,7 @@ public class ClientService {
 
 	public Client fromDto(ClientNewDTO objDto) {
 		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(),
-				ClientType.toEnum(objDto.getClientType()), bcrypt.encode(objDto.getPassword()));
+				ClientType.toEnum(objDto.getClientType()), bCrypt.encode(objDto.getPassword()));
 		City city = new City(objDto.getCityId(), null, null);
 		Adress adress = new Adress(null, objDto.getLogradouro(), objDto.getNumber(), objDto.getComplement(),
 				objDto.getNeighborhood(), objDto.getPostalCode(), cli, city);
