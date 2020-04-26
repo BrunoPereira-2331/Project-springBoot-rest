@@ -32,8 +32,8 @@ public class AuthService {
 		
 		String newPass = newPassword();
 		client.setPassword(bCrypt.encode(newPass));
-		clientRepo.save(client);
 		emailService.sendNewPasswordEmail(client, newPass);
+		clientRepo.save(client);
 		
 	}
 	
