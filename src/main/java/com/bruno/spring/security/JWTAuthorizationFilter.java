@@ -32,13 +32,15 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		String header = request.getHeader("Authorization");
-		 if (header != null && header.startsWith("Bearer ")) {
+		if (header != null && header.startsWith("Bearer ")) {
 			UsernamePasswordAuthenticationToken auth = getAuthentication(request, header.substring(7));
 			if (auth != null) {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
-			chain.doFilter(request, response);
+
 		}
+		//doFilter fora do primeiro if fix upload img pelo endpoint
+		chain.doFilter(request, response);
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {
