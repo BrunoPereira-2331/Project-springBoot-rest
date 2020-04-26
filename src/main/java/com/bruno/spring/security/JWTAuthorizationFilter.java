@@ -20,7 +20,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private UserDetailsService userDetailsService;
 
-	// AuthenticationManager não precisa ser declaro pois ja existe na super classe
+	// AuthenticationManager não precisa ser declarado pois ja existe na super
+	// classe
 	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
 			UserDetailsService userDetailsService) {
 		super(authenticationManager);
@@ -39,7 +40,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			}
 
 		}
-		//doFilter fora do primeiro if fix upload img pelo endpoint
 		chain.doFilter(request, response);
 	}
 

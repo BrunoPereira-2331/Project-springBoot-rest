@@ -46,7 +46,6 @@ public class ClientService {
 	
 
 	public Client find(Long id) {
-		
 		UserSS user = UserService.authenticated();
 		if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acess denied");
@@ -117,7 +116,15 @@ public class ClientService {
 	}
 	
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
-		
+		//pega o usuario logado
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acess denied");
+		}
+		URI uri = s3Service.uploadFile(multipartFile);
+		Client cli = find(user.getId());
+		cli.setImgUrl(uri.toString());
+		clientRepo.save(cli);
+		return uri;
 	}
 }
