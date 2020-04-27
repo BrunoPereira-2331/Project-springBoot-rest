@@ -1,5 +1,6 @@
 package com.bruno.spring.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,20 +39,25 @@ public class ClientService {
 
 	@Autowired
 	private AdressRepository adressRepo;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCrypt;
-	
+
 	@Autowired
 	private S3Service s3Service;
-	
+
+	@Autowired
+	private ImageService imgService;
+
+	@Value("${img.prefix.client.profile}")
+	private String imgPrefix;
 
 	public Client find(Long id) {
 		UserSS user = UserService.authenticated();
 		if (user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acess denied");
 		}
-		
+
 		Optional<Client> obj = clientRepo.findById(id);
 		return obj.orElseThrow(
 				() -> new ObjectNotFoundException("Object not found! id: " + id + ", type: " + Client.class.getName()));
@@ -75,8 +82,7 @@ public class ClientService {
 		try {
 			clientRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException(
-					"Can't delete this client! there are orders associeted with this client");
+			throw new DataIntegrityException("Can't delete this client! there are orders associeted with this client");
 		}
 	}
 
@@ -88,7 +94,7 @@ public class ClientService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return clientRepo.findAll(pageRequest);
 	}
-	
+
 	public Client fromDto(ClientDTO objDto) {
 		return new Client(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null, null);
 	}
@@ -114,17 +120,15 @@ public class ClientService {
 		newObj.setName(obj.getName());
 		newObj.setEmail(obj.getEmail());
 	}
-	
+
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		//pega o usuario logado
+		// pega o usuario logado
 		UserSS user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acess denied");
 		}
-		URI uri = s3Service.uploadFile(multipartFile);
-		Client cli = find(user.getId());
-		cli.setImgUrl(uri.toString());
-		clientRepo.save(cli);
-		return uri;
+		BufferedImage jpgImg = imgService.getJpgImageFromFile(multipartFile);
+		String fileName = imgPrefix + user.getId() + ".jpg";
+		return s3Service.uploadFile(imgService.getInputStream(jpgImg, "jpg"), fileName, "image");
 	}
 }
