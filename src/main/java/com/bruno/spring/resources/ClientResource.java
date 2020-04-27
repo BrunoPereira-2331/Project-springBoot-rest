@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +34,12 @@ public class ClientResource {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Client> find(@PathVariable Long id) {
 		Client obj = clientService.find(id);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(value = "/email", method = RequestMethod.GET)
+	public ResponseEntity<Client> find(@RequestParam(value="value") String email) {
+		Client obj = clientService.findByEmail(email);
 		return ResponseEntity.ok().body(obj);
 	}
 
