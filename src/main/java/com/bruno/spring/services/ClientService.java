@@ -51,6 +51,10 @@ public class ClientService {
 
 	@Value("${img.prefix.client.profile}")
 	private String imgPrefix;
+	
+	@Value("${img.profile.size}")
+	private int size;
+	
 
 	public Client find(Long id) {
 		UserSS user = UserService.authenticated();
@@ -128,6 +132,9 @@ public class ClientService {
 			throw new AuthorizationException("Acess denied");
 		}
 		BufferedImage jpgImg = imgService.getJpgImageFromFile(multipartFile);
+		jpgImg = imgService.cropSquare(jpgImg);
+		jpgImg = imgService.resize(jpgImg, size);
+		
 		String fileName = imgPrefix + user.getId() + ".jpg";
 		return s3Service.uploadFile(imgService.getInputStream(jpgImg, "jpg"), fileName, "image");
 	}
