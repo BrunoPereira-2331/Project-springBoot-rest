@@ -1,19 +1,36 @@
- package com.bruno.spring.resources.exceptions;
+package com.bruno.spring.resources.exceptions;
 
 import java.io.Serializable;
 
-public class StandardError implements Serializable{
+public class StandardError implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	private Long timestamp;
 	private Integer status;
-	private String mensagem;
-	private Long timeStamp;
-	
-	public StandardError(Integer status, String msg, Long timeStamp) {
+	private String error;
+	private String message;
+	private String path;
+
+	public StandardError() {
+		super();
+	}
+
+	public StandardError(Long timestamp, Integer status, String error, String message, String path) {
+		super();
+		this.timestamp = timestamp;
 		this.status = status;
-		this.mensagem = msg;
-		this.timeStamp = timeStamp;
+		this.error = error;
+		this.message = message;
+		this.path = path;
+	}
+
+	public Long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public Integer getStatus() {
@@ -24,22 +41,28 @@ public class StandardError implements Serializable{
 		this.status = status;
 	}
 
-	public String getMensagem() {
-		return mensagem;
+	public String getError() {
+		return error;
 	}
 
-	public void setMensagem(String msg) {
-		this.mensagem = msg;
+	public void setError(String error) {
+		this.error = error;
 	}
 
-	public Long getTimeStamp() {
-		return timeStamp;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setTimeStamp(Long timeStamp) {
-		this.timeStamp = timeStamp;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-	
-	
-	
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 }
