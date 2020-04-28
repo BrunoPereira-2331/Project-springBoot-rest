@@ -62,7 +62,7 @@ public class OrderService {
 		}
 		obj = orderRepo.save(obj);
 		paymentRepo.save(obj.getPayment());
-		for (OrderItem x : obj.getItems()) {
+		for (OrderItem x : obj.getItems())  {
 			x.setDescount(0.0);
 			x.setProduct(productService.find(x.getProduct().getId()));
 			x.setPrice(x.getProduct().getPrice());
